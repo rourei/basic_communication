@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
 )
 
+
 generate_dynamic_reconfigure_options(
   cfg/Tutorials.cfg
 )
@@ -35,7 +36,6 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
 )
-
 
 
 add_executable(server src/server.cpp)

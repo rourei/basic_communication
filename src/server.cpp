@@ -1,5 +1,9 @@
-#include <ros/ros.h>
+/*
+ * Server node that can be reconfigured by a dynamic_reconfigure client on runtime.
+ * Source: http://wiki.ros.org/dynamic_reconfigure/Tutorials
+ */
 
+#include <ros/ros.h>
 #include <dynamic_reconfigure/server.h>
 #include <dynamic_tutorials/TutorialsConfig.h>
 
@@ -10,7 +14,7 @@ void callback(dynamic_tutorials::TutorialsConfig &config, uint32_t level) {
     ROS_INFO("Reconfigure Request: %d %f %s %s %d",
              config.int_param, config.double_param,
              config.str_param.c_str(),
-             config.bool_param?"True":"False", // inline function see https://stackoverflow.com/a/29798
+             config.bool_param?"True":"False",
              config.size);
 }
 
