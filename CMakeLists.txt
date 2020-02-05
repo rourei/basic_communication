@@ -37,12 +37,6 @@ include_directories(
 )
 
 
-add_executable(reference_parameter_test src/reference_parameter_test.cpp)
-
-target_link_libraries(
-  reference_parameter_test
-  ${catkin_LIBRARIES}
-)
 
 add_executable(server src/server.cpp)
 
@@ -58,3 +52,4 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 add_dependencies(server ${PROJECT_NAME}_gencfg)
+add_dependencies(client ${PROJECT_NAME}_gencfg)
