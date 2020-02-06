@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(dynamic_tutorials)
+project(basic_communication)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
   dynamic_reconfigure
   roscpp
   rospy
+  rospy_message_converter
+  std_msgs
+  message_generation
 )
 
 
@@ -19,10 +22,20 @@ generate_dynamic_reconfigure_options(
 )
 
 
+add_message_files(
+  FILES
+  Kreditkarte.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES dynamic_tutorials
-#  CATKIN_DEPENDS dynamix_reconfigure roscpp rospy
+  CATKIN_DEPENDS dynamix_reconfigure roscpp rospy message_runtime
 #  DEPENDS system_lib
 )
 
@@ -36,6 +49,7 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
 )
+
 
 
 add_executable(server src/server.cpp)
