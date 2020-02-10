@@ -40,6 +40,13 @@ int main(int argc, char **argv) {
     dynamic_reconfigure::Client<basic_communication::TutorialsConfig> client("/basic_communication_server", &configurationCallback, &descriptionCallback);
 
 
+    // ### THIS MAKES IT WORK ######
+    ros::spinOnce();            // #
+    ros::Duration(1).sleep();   // #
+    ros::spinOnce();            // #
+    // #############################
+
+
     // DEBUG
     ROS_INFO("Config after init of client: %d %f %s %s %d",
              CFG.int_param, CFG.double_param,
@@ -51,7 +58,7 @@ int main(int argc, char **argv) {
     ROS_INFO("Spinning node");
 
     // Read current configuration from server
-    if (!client.getCurrentConfiguration(CFG, ros::Duration(10)))
+    if (!client.getCurrentConfiguration(CFG, ros::Duration(1)))
     {
         ROS_INFO("Timeout on first getCurrentConfig");
 
@@ -60,7 +67,7 @@ int main(int argc, char **argv) {
     // ### Loop ###
     while(ros::ok())
     {
-        if (client.getCurrentConfiguration(CFG, ros::Duration(10)))
+        if (client.getCurrentConfiguration(CFG, ros::Duration(1)))
         {
             // DEBUG
             ROS_INFO("Current configuration (inside loop): %d %f %s %s %d",
@@ -72,7 +79,7 @@ int main(int argc, char **argv) {
             // Change paramter in config
             CFG.int_param = CFG.int_param + 3;
         }
-		else if (!client.getCurrentConfiguration(CFG, ros::Duration(10)))
+        else if (!client.getCurrentConfiguration(CFG, ros::Duration(1)))
 		{
 			ROS_INFO("Timeout in loop.");
 		}
