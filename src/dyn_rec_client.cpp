@@ -6,9 +6,6 @@
 #include <dynamic_reconfigure/client.h>
 #include <basic_communication/TutorialsConfig.h>
 
-basic_communication::TutorialsConfig CFG;
-dynamic_reconfigure::ConfigDescription DESCRPT;
-
 
 // ########### Callbacks ###########
 void configurationCallback(const basic_communication::TutorialsConfig& config){
@@ -17,8 +14,6 @@ void configurationCallback(const basic_communication::TutorialsConfig& config){
              config.str_param.c_str(),
              config.bool_param?"True":"False",
              config.size);
-
-    CFG = config;
 }
 
 void descriptionCallback(const dynamic_reconfigure::ConfigDescription& description){
@@ -36,29 +31,29 @@ int main(int argc, char **argv) {
     // Define loop rate
     ros::Rate loop_rate(0.1);
 
-    // Create client and config object
+    // New Async Spinner object
+    ros::AsyncSpinner spinner(0);
+    spinner.start();
+
+
+    // Create client, config object and description object
     dynamic_reconfigure::Client<basic_communication::TutorialsConfig> client("/basic_communication_server", &configurationCallback, &descriptionCallback);
-
-
-    // ### THIS MAKES IT WORK ######
-    ros::spinOnce();            // #
-    ros::Duration(1).sleep();   // #
-    ros::spinOnce();            // #
-    // #############################
+    basic_communication::TutorialsConfig cfg;
+    dynamic_reconfigure::ConfigDescription descrpt;
 
 
     // DEBUG
-    ROS_INFO("Config after init of client: %d %f %s %s %d",
-             CFG.int_param, CFG.double_param,
-             CFG.str_param.c_str(),
-             CFG.bool_param?"True":"False",
-             CFG.size);
+//    ROS_INFO("Config after init of client: %d %f %s %s %d",
+//             cfg.int_param, cfg.double_param,
+//             cfg.str_param.c_str(),
+//             cfg.bool_param?"True":"False",
+//             cfg.size);
 
 
     ROS_INFO("Spinning node");
 
     // Read current configuration from server
-    if (!client.getCurrentConfiguration(CFG, ros::Duration(1)))
+    if (!client.getCurrentConfiguration(cfg, ros::Duration(1)))
     {
         ROS_INFO("Timeout on first getCurrentConfig");
 
@@ -67,42 +62,41 @@ int main(int argc, char **argv) {
     // ### Loop ###
     while(ros::ok())
     {
-        if (client.getCurrentConfiguration(CFG, ros::Duration(1)))
+        if (client.getCurrentConfiguration(cfg, ros::Duration(1)))
         {
             // DEBUG
             ROS_INFO("Current configuration (inside loop): %d %f %s %s %d",
-                     CFG.int_param, CFG.double_param,
-                     CFG.str_param.c_str(),
-                     CFG.bool_param?"True":"False",
-                     CFG.size);
+                     cfg.int_param, cfg.double_param,
+                     cfg.str_param.c_str(),
+                     cfg.bool_param?"True":"False",
+                     cfg.size);
 
             // Change paramter in config
-            CFG.int_param = CFG.int_param + 3;
+            cfg.int_param = cfg.int_param + 1;
         }
-        else if (!client.getCurrentConfiguration(CFG, ros::Duration(1)))
+        else if (!client.getCurrentConfiguration(cfg, ros::Duration(1)))
 		{
 			ROS_INFO("Timeout in loop.");
 		}
 
         // DEBUG
         ROS_INFO("New configuration (inside loop): %d %f %s %s %d",
-                 CFG.int_param, CFG.double_param,
-                 CFG.str_param.c_str(),
-                 CFG.bool_param?"True":"False",
-                 CFG.size);
+                 cfg.int_param, cfg.double_param,
+                 cfg.str_param.c_str(),
+                 cfg.bool_param?"True":"False",
+                 cfg.size);
 
         // Sent new configuration to server
-        client.setConfiguration(CFG);
+        client.setConfiguration(cfg);
 
         // DEBUG
         ROS_INFO("Config has been sent. Sleeping.");
 
         // Spin the loop
-        ros::spinOnce();
         loop_rate.sleep();
-
     }
 
+    ros::waitForShutdown();
     return 0;
 }
 
