@@ -24,14 +24,14 @@ void descriptionCallback(const dynamic_reconfigure::ConfigDescription& descripti
 
 int main(int argc, char **argv) {
 
-    // Initialize ROS, NodeHandle necessary for using
+    // Initialize ROS, NodeHandle
     ros::init(argc, argv, "basic_communication_client");
     ros::NodeHandle n;
 
     // Define loop rate
     ros::Rate loop_rate(0.1);
 
-    // New Async Spinner object
+    // AsyncSpinner for handling timing properly
     ros::AsyncSpinner spinner(0);
     spinner.start();
 
@@ -40,14 +40,6 @@ int main(int argc, char **argv) {
     dynamic_reconfigure::Client<basic_communication::TutorialsConfig> client("/basic_communication_server", &configurationCallback, &descriptionCallback);
     basic_communication::TutorialsConfig cfg;
     dynamic_reconfigure::ConfigDescription descrpt;
-
-
-    // DEBUG
-//    ROS_INFO("Config after init of client: %d %f %s %s %d",
-//             cfg.int_param, cfg.double_param,
-//             cfg.str_param.c_str(),
-//             cfg.bool_param?"True":"False",
-//             cfg.size);
 
 
     ROS_INFO("Spinning node");
@@ -64,13 +56,6 @@ int main(int argc, char **argv) {
     {
         if (client.getCurrentConfiguration(cfg, ros::Duration(1)))
         {
-            // DEBUG
-            ROS_INFO("Current configuration (inside loop): %d %f %s %s %d",
-                     cfg.int_param, cfg.double_param,
-                     cfg.str_param.c_str(),
-                     cfg.bool_param?"True":"False",
-                     cfg.size);
-
             // Change paramter in config
             cfg.int_param = cfg.int_param + 1;
         }
@@ -79,14 +64,7 @@ int main(int argc, char **argv) {
 			ROS_INFO("Timeout in loop.");
 		}
 
-        // DEBUG
-        ROS_INFO("New configuration (inside loop): %d %f %s %s %d",
-                 cfg.int_param, cfg.double_param,
-                 cfg.str_param.c_str(),
-                 cfg.bool_param?"True":"False",
-                 cfg.size);
-
-        // Sent new configuration to server
+        // Send new configuration to server
         client.setConfiguration(cfg);
 
         // DEBUG
