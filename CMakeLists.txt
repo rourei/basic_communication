@@ -52,18 +52,18 @@ include_directories(
 
 
 
-add_executable(server src/server.cpp)
+add_executable(dyn_rec_server src/dyn_rec_server.cpp)
 
 target_link_libraries( 
-  server
+  dyn_rec_server
   ${catkin_LIBRARIES}
 )
 
-add_executable(client src/client.cpp)
+add_executable(dyn_rec_client src/dyn_rec_client.cpp)
 
 target_link_libraries(
-  client
+  dyn_rec_client
   ${catkin_LIBRARIES}
 )
-add_dependencies(server ${PROJECT_NAME}_gencfg)
-add_dependencies(client ${PROJECT_NAME}_gencfg)
+add_dependencies(dyn_rec_server ${PROJECT_NAME}_gencfg)
+add_dependencies(dyn_rec_client ${PROJECT_NAME}_gencfg)
