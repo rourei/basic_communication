@@ -9,6 +9,7 @@ This package includes various nodes that for testing communication concepts for 
 - **dyn_rec_server.cpp, dyn_rec_client.cpp and dyn_rec_client_double.cpp**
   - nodes to test the [C++ client API](https://github.com/ros/dynamic_reconfigure/blob/melodic-devel/include/dynamic_reconfigure/client.h) of *dynamic_reconfigure*
   - the client nodes use the [AsyncSpinner](https://roboticsbackend.com/ros-asyncspinner-example/) to handle timing of callbacks properly
+  - explanation of the *level* parameter in the dyn_rec_server callback can be found [here](https://answers.ros.org/question/9883/what-are-the-semantics-of-reconfiguration-level-for-dynamic-reconfigure/)
 
 - **json_talker.py**
   - script for testing the *rospy_message_converter* that can be found [here](https://github.com/uos/rospy_message_converter)
