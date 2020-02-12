@@ -1,5 +1,6 @@
 /*
  * Client node that reconfigures a server node via dynamic_reconfigure on runtime.
+ * This node increments the integer parameter and flips the bool parameter at 0.1Hz.
  */
 
 #include <ros/ros.h>
@@ -56,8 +57,9 @@ int main(int argc, char **argv) {
     {
         if (client.getCurrentConfiguration(cfg, ros::Duration(1)))
         {
-            // Change paramter in config
+            // Change parameters in config
             cfg.int_param = cfg.int_param + 1;
+            cfg.bool_param = !cfg.bool_param;
         }
         else if (!client.getCurrentConfiguration(cfg, ros::Duration(1)))
 		{

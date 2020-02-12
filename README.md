@@ -6,7 +6,7 @@ This package includes various nodes that for testing communication concepts for 
 
 ## Nodes / Scripts
 
-- **dyn_rec_server.cpp, dyn_rec_client.cpp and dyn_rec_client_bool.cpp**
+- **dyn_rec_server.cpp, dyn_rec_client.cpp and dyn_rec_client_double.cpp**
   - nodes to test the [C++ client API](https://github.com/ros/dynamic_reconfigure/blob/melodic-devel/include/dynamic_reconfigure/client.h) of *dynamic_reconfigure*
   - the client nodes use the [AsyncSpinner](https://roboticsbackend.com/ros-asyncspinner-example/) to handle timing of callbacks properly
 

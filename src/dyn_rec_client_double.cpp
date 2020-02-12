@@ -1,5 +1,6 @@
 /*
  * Client node that reconfigures a server node via dynamic_reconfigure on runtime.
+ * This node increments the double parameter by 0.05 at 0.1Hz.
  */
 
 #include <ros/ros.h>
@@ -9,7 +10,7 @@
 
 // ########### Callbacks ###########
 void configurationCallback(const basic_communication::TutorialsConfig& config){
-    ROS_INFO("configurationCallback BOOL: %d %f %s %s %d",
+    ROS_INFO("configurationCallback: %d %f %s %s %d",
              config.int_param, config.double_param,
              config.str_param.c_str(),
              config.bool_param?"True":"False",
@@ -24,12 +25,12 @@ void descriptionCallback(const dynamic_reconfigure::ConfigDescription& descripti
 
 int main(int argc, char **argv) {
 
-    // Initialize ROS
-    ros::init(argc, argv, "basic_communication_client_bool");
+    // Initialize ROS, NodeHandle
+    ros::init(argc, argv, "basic_communication_client_double");
     ros::NodeHandle n;
 
     // Define loop rate
-    ros::Rate loop_rate(0.5);
+    ros::Rate loop_rate(0.1);
 
     // AsyncSpinner for handling timing properly
     ros::AsyncSpinner spinner(0);
@@ -48,6 +49,7 @@ int main(int argc, char **argv) {
     if (!client.getCurrentConfiguration(cfg, ros::Duration(1)))
     {
         ROS_INFO("Timeout on first getCurrentConfig");
+
     }
 
     // ### Loop ###
@@ -55,8 +57,8 @@ int main(int argc, char **argv) {
     {
         if (client.getCurrentConfiguration(cfg, ros::Duration(1)))
         {
-            // Change paramter in config
-            cfg.bool_param = !cfg.bool_param;
+            // Change parameter in config
+            cfg.double_param = cfg.double_param + 0.05;
         }
         else if (!client.getCurrentConfiguration(cfg, ros::Duration(1)))
 		{

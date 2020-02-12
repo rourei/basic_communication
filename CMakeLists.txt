@@ -66,13 +66,15 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-add_executable(dyn_rec_client_bool src/dyn_rec_client_bool.cpp)
+
+add_executable(dyn_rec_client_double src/dyn_rec_client_double.cpp)
 
 target_link_libraries(
-  dyn_rec_client_bool
+  dyn_rec_client_double
   ${catkin_LIBRARIES}
 )
 
+
 add_dependencies(dyn_rec_server ${PROJECT_NAME}_gencfg)
 add_dependencies(dyn_rec_client ${PROJECT_NAME}_gencfg)
-add_dependencies(dyn_rec_client_bool ${PROJECT_NAME}_gencfg)
+add_dependencies(dyn_rec_client_double ${PROJECT_NAME}_gencfg)

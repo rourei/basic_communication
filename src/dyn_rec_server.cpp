@@ -6,6 +6,8 @@
 #include <ros/ros.h>
 #include <dynamic_reconfigure/server.h>
 #include <basic_communication/TutorialsConfig.h>
+#include <bitset>
+#include <iostream>
 
 
 // Callback will be called when new configuration is received
@@ -16,6 +18,11 @@ void callback(basic_communication::TutorialsConfig &config, uint32_t level) {
              config.str_param.c_str(),
              config.bool_param?"True":"False",
              config.size);
+    ROS_INFO("Level param is %d", level);
+    // Convert level to bit set and display as string
+    std::bitset<32> level_bitset;
+    level_bitset.set(level);
+    std::cout << "Level param as bitset = " << level_bitset.to_string() << std::endl;
 }
 
 int main(int argc, char **argv) {
