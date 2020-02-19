@@ -51,7 +51,6 @@ include_directories(
 )
 
 
-
 add_executable(dyn_rec_server src/dyn_rec_server.cpp)
 
 target_link_libraries( 
@@ -74,6 +73,19 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+add_executable(latched_talker src/latched_talker.cpp)
+
+target_link_libraries(
+  latched_talker
+  ${catkin_LIBRARIES}
+)
+
+add_executable(latched_listener src/latched_listener.cpp)
+
+target_link_libraries(
+  latched_listener
+  ${catkin_LIBRARIES}
+)
 
 add_dependencies(dyn_rec_server ${PROJECT_NAME}_gencfg)
 add_dependencies(dyn_rec_client ${PROJECT_NAME}_gencfg)

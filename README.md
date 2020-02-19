@@ -19,4 +19,10 @@ This package includes various nodes that for testing communication concepts for 
 
 - **json_writer.py**
   - receives the ROS message of type *Kreditkrate* from the *json_talker.py*
-  - alters the fields of the message, converts it to JSON format and saves it to *example_written.json* 
+  - alters the fields of the message, converts it to JSON format and saves it to *example_written.json*
+
+- **latched_talker and latched_listener**
+  - nodes to show how the concept of latching a topic works
+  - the *latched_talker* publishes the latched topic *latched_chatter* which means that the last message sent will always be buffered and sent to new subscribers - even if they subscribe **after** the message has been sent
+  - by starting the *latched_listener* after a message has been sent by the talker this behaviour can be observed
+  - an additional `rostopic echo /latched_chatter` shows that the message is not sent continuously but is still received by the listener node
