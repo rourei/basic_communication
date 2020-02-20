@@ -26,3 +26,11 @@ This package includes various nodes that for testing communication concepts for 
   - the *latched_talker* publishes the latched topic *latched_chatter* which means that the last message sent will always be buffered and sent to new subscribers - even if they subscribe **after** the message has been sent
   - by starting the *latched_listener* after a message has been sent by the talker this behaviour can be observed
   - an additional `rostopic echo /latched_chatter` shows that the message is not sent continuously but is still received by the listener node
+
+- **param_setter and param_cached_getter**
+  - *param_setter* changes a string parameter `test_paramater` on the parameter server at 0.1Hz
+  - *param_cached_getter* reads `test_paramater` using the `ros::param::getCached` method
+    - :bulb: if setting the loop frequency to 100Hz for the getter node the CPU usage is approx. 10% for the non-cached version `ros::param::get`
+    - for the cached version `ros::param::getCached` the CPU usage drops to 0.5%
+  - when using the cached method the node is not beeing updated in case of a changing in the sense of a callback-like behaviour
+  - the node uses the cached version of the parameter as long as the parameter server does not notify the node about an update, only then the paramater is read again from the server

@@ -87,6 +87,20 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+add_executable(param_setter src/param_setter.cpp)
+
+target_link_libraries(
+  param_setter
+  ${catkin_LIBRARIES}
+)
+
+add_executable(param_cached_getter src/param_cached_getter.cpp)
+
+target_link_libraries(
+  param_cached_getter
+  ${catkin_LIBRARIES}
+)
+
 add_dependencies(dyn_rec_server ${PROJECT_NAME}_gencfg)
 add_dependencies(dyn_rec_client ${PROJECT_NAME}_gencfg)
 add_dependencies(dyn_rec_client_double ${PROJECT_NAME}_gencfg)
