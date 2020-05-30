@@ -101,6 +101,13 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+add_executable(regex_string_splitting src/regex_string_splitting.cpp)
+
+target_link_libraries(
+  regex_string_splitting
+  ${catkin_LIBRARIES}
+)
+
 add_dependencies(dyn_rec_server ${PROJECT_NAME}_gencfg)
 add_dependencies(dyn_rec_client ${PROJECT_NAME}_gencfg)
 add_dependencies(dyn_rec_client_double ${PROJECT_NAME}_gencfg)
