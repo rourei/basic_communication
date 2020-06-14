@@ -1,12 +1,14 @@
 # basic_communication
 
-This package includes various nodes that for testing communication concepts for my master thesis.
+This package includes various nodes for testing communication concepts for my master thesis. It has been developed under Ubuntu 18.04.4 LTS using [ROS Melodic.](http://wiki.ros.org/melodic).
+
+The package depends on the [rospy_message_converter](https://github.com/uos/rospy_message_converter) and uses various code snippets from the ROS tutorials.
 
 ---
 
 ## Nodes / Scripts
 
-- **dyn_rec_server.cpp, dyn_rec_client.cpp and dyn_rec_client_double.cpp**
+- **dyn_rec_server, dyn_rec_client and dyn_rec_client_double**
   - nodes to test the [C++ client API](https://github.com/ros/dynamic_reconfigure/blob/melodic-devel/include/dynamic_reconfigure/client.h) of *dynamic_reconfigure*
   - the client nodes use the [AsyncSpinner](https://roboticsbackend.com/ros-asyncspinner-example/) to handle timing of callbacks properly
   - explanation of the *level* parameter in the dyn_rec_server callback can be found [here](https://answers.ros.org/question/9883/what-are-the-semantics-of-reconfiguration-level-for-dynamic-reconfigure/)
@@ -34,3 +36,6 @@ This package includes various nodes that for testing communication concepts for 
     - for the cached version `ros::param::getCached` the CPU usage drops to 0.5%
   - when using the cached method the node is not beeing updated in case of a changing in the sense of a callback-like behaviour
   - the node uses the cached version of the parameter as long as the parameter server does not notify the node about an update, only then the paramater is read again from the server
+  
+- **regex_string_splitting**
+  - node to test the usage of regular expressions to parse custom strings
