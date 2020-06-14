@@ -13,6 +13,8 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
+find_package(Boost REQUIRED COMPONENTS system)
+
 generate_dynamic_reconfigure_options(
   cfg/Tutorials.cfg
 )
@@ -98,6 +100,17 @@ add_executable(regex_string_splitting src/regex_string_splitting.cpp)
 target_link_libraries(
   regex_string_splitting
   ${catkin_LIBRARIES}
+)
+
+# ---------------------------------------------------------------------------------------
+
+add_executable(serial_interface_test
+	src/serial_interface_test.cpp
+)
+
+target_link_libraries(serial_interface_test
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
 )
 
 # ---------------------------------------------------------------------------------------
