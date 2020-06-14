@@ -1,35 +1,21 @@
-/*******************************************************************
- *
- * fwd_health_task_tools
- *
- * Copyright (c) 2020,
- * FORWARDttc GmbH
- * (LICENSE)
- * All rights reserved.
- *
- * https://www.forward-ttc.de/
- *
- * This software is distributed WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.
- *
- * Author: Rouven Reichert (rouven.reichert@forward-ttc.de)
- *
- ******************************************************************/
+/*
+ * Node to test the usage of regular expressions in C++.
+ * Date: 2020/05/30
+ */
 
 /*
  * ### INFO ###
  * https://stackoverflow.com/a/49201798
  *
- * [ ] matcht Zeichen, die in der Klammer stehen
- * [^ ] matcht Zeichen, die NICHT in der Klammer stehen
- * innerhalb dieser Klammern muessen Sonderzeichen (z.B. '.') nicht escaped werden
- * \s kennzeichnet whitespace \S alles ausser whitespace
- * \d kennzeichnet eine Zahl, \D alles ausser einer Zahl
- * \w keennzeichnet Buchstabe, \W alles ausser Buchstabe
+ * [ ]  matches characters inside the brackets
+ * [^ ] matches characters NOT inside the brackets
+ *      -> special characters (e.g. '.') do not need to be escaped
+ * \s = whitespace, \S every character except whitespace
+ * \d = number,     \D every character except numbers
+ * \w = letter,     \W every character except letters
  *
- * regex_search bricht nach dem ersten gefundenen Match ab
- * -> Abhilfe schafft ein Iterator: https://stackoverflow.com/a/49725378
+ * regex_search stops after first match
+ * -> better to use iterators: https://stackoverflow.com/a/49725378
  */
 
 #include "ros/ros.h"
@@ -53,7 +39,6 @@ int main(int argc, char** argv)
   const std::string position2 ("x: 2.68 y:2.45 z: 254.12");
   const std::string orientation = "x: 0.0 y: 0.0 z: 0.0 w: 1.0";
 
-
   // Define regular expression
   std::regex regex(R"(([xyzw]):\s*(\d+\.\d+))");
 
@@ -63,12 +48,12 @@ int main(int argc, char** argv)
   // -------------------------------------------------------------------------------------------------------------------
 
   std::cout << "\n### ITERATOR-VERSION ###\n";
-  // Findet alle Matches separat, dafür nicht gruppiert (nur x: 1.0)
+  // Finds all matches separately, but not grouped (only x: 1.0)
 
   std::sregex_token_iterator a ( position1.begin(), position1.end(), regex );
   std::sregex_token_iterator b ( position2.begin(), position2.end(), regex );
   std::sregex_token_iterator c ( orientation.begin(), orientation.end(), regex );
-  std::sregex_token_iterator rend; // default constructor = end-of-sequence:
+  std::sregex_token_iterator rend; // default constructor = end-of-sequence
 
   while (a != rend) std::cout << "[" << *a++ << "]";
   std::cout << std::endl;
@@ -82,9 +67,9 @@ int main(int argc, char** argv)
   // -------------------------------------------------------------------------------------------------------------------
 
   std::cout << "\n### WHILE-VERSION ###";
-  // Findet alle Matches, auch gruppiert
+  // Finds all matches, also grouped
 
-  // Temp-Variablen notwendig, weil das bereits gefundene Match abgeschnitten wird -> String wird verändert
+  // Temporary variables necessary, because every match that has been found is cut off -> string is altered
   std::string temp_pos1 = position1;
   std::string temp_pos2 = position2;
   std::string temp_orientation = orientation;
@@ -128,7 +113,7 @@ int main(int argc, char** argv)
   // -------------------------------------------------------------------------------------------------------------------
 
   std::cout << "\n### IF-VERSION ###";
-  // Findet nur das jeweils erste Match, dafür aber auch gruppiert (einmal komplett, einmal nur die Zahl)
+  // Only finds the first match, but also grouped (one time the complete match, and once only the number)
 
   if (std::regex_search(position1, matches, regex))
   {
