@@ -1,6 +1,6 @@
 # basic_communication
 
-This package includes various nodes for testing communication concepts for my master thesis. It has been developed under Ubuntu 18.04.4 LTS using [ROS Melodic.](http://wiki.ros.org/melodic).
+This package includes various nodes for testing communication concepts for my master thesis. It has been developed under Ubuntu 18.04.4 LTS using [ROS Melodic](http://wiki.ros.org/melodic).
 
 The package depends on the [rospy_message_converter](https://github.com/uos/rospy_message_converter) and uses various code snippets from the ROS tutorials.
 
